@@ -1,3 +1,4 @@
+# Go / mygo build output
 /build/
 /.mygo/
 mygo_windows_*.syso
@@ -12,3 +13,17 @@ devenv.local.yaml
 
 # pre-commit
 .pre-commit-config.yaml
+
+# Prototype (React + Vite + Tailwind; bun is the package manager)
+node_modules/
+prototype/dist/
+prototype/.vite/
+prototype/*.tsbuildinfo
+
+# Logs, local env, OS noise
+*.log
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db

@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  /* Nord Dark defaults (base16) — runtime theme switching overrides these vars. */
+  --color-bg: #2e3440;      /* base00 */
+  --color-panel: #3b4252;   /* base01 */
+  --color-surface: #434c5e; /* base02 */
+  --color-line: #4c566a;    /* base03 */
+  --color-mut: #d8dee9;     /* base04 */
+  --color-ink: #e5e9f0;     /* base05 */
+  --color-acc: #88c0d0;     /* base0C */
+  --color-work: #81a1c1;    /* base0D — working (blue) */
+  --color-warn: #ebcb8b;    /* base0A */
+  --color-ok: #a3be8c;      /* base0B */
+  --color-err: #bf616a;     /* base08 */
+  --font-sans: ui-sans-serif, system-ui, "Noto Sans SC", sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", monospace;
+
+  /* glass layers — one blur step per elevation (window → raised → panel → overlay) */
+  --color-glass-0: rgb(46 52 64 / 0.52);    /* base00 · window base over the wallpaper */
+  --color-glass-1: rgb(216 222 233 / 0.05); /* base04 tint · raised surface: cards, inputs */
+  --color-glass-2: rgb(59 66 82 / 0.62);    /* base01 · chrome strips: sidebar, status bar */
+  --color-glass-3: rgb(59 66 82 / 0.88);    /* base01 · floating overlays: popovers, palettes, hub */
+}
+
+html, body, #root { height: 100%; }
+body {
+  color: var(--color-ink);
+  background-color: #0b0d12;
+  background-image: url("/wallpaper.jpg");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* Nerd Font glyphs (status bar icons: funnel, shield-slash, …) */
+.nf {
+  font-family: "FiraCode Nerd Font Mono", "Symbols Nerd Font", ui-monospace, monospace;
+  line-height: 1;
+}
+
+/* Dot semantics (Synth): gray idle · blue slow-pulse working · yellow needs-attention · green done · red failed. */
+@keyframes dot-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+.dot-pulse { animation: dot-pulse 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .dot-pulse { animation: none; } }

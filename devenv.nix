@@ -33,6 +33,9 @@ in
     pkgs.go_1_27
     # fc-list and fc-match, for the text the app draws.
     pkgs.fontconfig
+    # React+Tailwind design prototype (prototype/), not the product.
+    pkgs.nodejs_22
+    pkgs.bun
   ];
 
   env = {
