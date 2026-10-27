@@ -1,0 +1,3 @@
+# No embedded terminal
+
+Decision: papago embeds no terminal pane in any phase. An agent reaches the human through native surfaces only: the Timeline, the Agent Hub, the Permission queue, and (phase 2) read-only diff review. Humans who want omp's own TUI run omp in their own terminal, outside papago. Rationale: with TSP rejected (ADR-0009) an embedded terminal would only ever render omp's plain ANSI TUI — a second UI lane competing with the review-focused product, plus VT-emulation and pty plumbing to carry forever. This deliberately rejects the "embedded terminal" table-stakes item from the ADE landscape survey. Workspace setup scripts, if added later, are process management with captured output, not a terminal UI.

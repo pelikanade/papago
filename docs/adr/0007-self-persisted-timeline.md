@@ -1,0 +1,3 @@
+# papago persists its own Timeline; omp sessions stay the transcript truth
+
+Decision: the Daemon stores its metadata plus, per Agent, an append-only JSONL timeline of already-mapped items carrying seq/epoch. Attaching a Client replays the timeline from disk. The omp session files remain the source of truth for the underlying transcript, branching, and forking; papago never re-derives timeline items from them on the read path. Storage is plain files — no SQLite — because the toolchain mandates CGO_ENABLED=0 and JSONL keeps exactly one RPC-events→timeline mapping path in the codebase. Rationale: a second messages→timeline mapping path would double the mapping surface, and an archived Agent's history must not depend on the survival of omp session files.

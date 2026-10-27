@@ -1,0 +1,9 @@
+# Worktree-first isolation by placement; the local checkout is the exception
+
+Decision: Agent spawn is worktree-first, and the target is chosen by *placement*, not by a toggle. The Project-level composer — the primary spawn surface — always creates a new dedicated git-worktree Workspace (random display-only slug, base = current branch) plus an Agent inside it. The Workspace-level composer creates an Agent in that very Workspace, worktree or local checkout alike. Consequently the Project's local main checkout receives Agents only when the user deliberately types in that checkout's own Workspace composer: local is a special case you walk into, and nothing about the choice is remembered between spawns. Rationale: with yolo approvals as the default (ADR-0004), parallel Agents sharing the human's checkout are a write-conflict and blast-radius hazard; making worktree the default of the primary surface turns isolation into the path of least resistance, while placement-as-targeting keeps the choice visible and stateless — no toggle to mis-set, no sticky preference to forget, no "typed in W but landed in W′" disorientation. The product logic (sidebar tree, prune flow, ADR-0004's safety story) is built on worktrees. Multiple Agents may still share any one Workspace, worktree included (round-9 decision) — worktree-first governs the default at creation, not capacity.
+
+## Considered Options
+
+- Isolation toggle on a Workspace-level composer (default "new worktree", temporary "local"): rejected — typing in one Workspace and spawning a sibling is semantically disorienting.
+- Single Project composer with a target dropdown: rejected — dropdown ritual on the highest-frequency path.
+- Project composer + per-Workspace "+ Agent here" buttons: superseded — the Workspace composer itself serves that role.
