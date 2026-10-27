@@ -1,56 +1,31 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/egoist/mygo"
 	"github.com/egoist/mygo/ui"
 )
 
-// app is the state the window shows. Its view builds the interface from
-// it, on the main thread, whenever the window needs a frame: after input,
-// after Window.Update, and while something animates.
-type app struct {
-	name  string
-	count int
-}
-
-func (a *app) view(c *ui.Context) {
-	t := c.Theme()
-	ui.Column(c).Fill().Center().Gap(16).Padding(24).Children(func() {
-		ui.Text(c, "papago").FontSize(26).Bold()
-		ui.TextInput(c, &a.name).Placeholder("Your name").Label("Name").Width(240)
-		greeting := "Hello!"
-		if a.name != "" {
-			greeting = fmt.Sprintf("Hello, %s!", a.name)
-		}
-		ui.Text(c, greeting).TextColor(t.TextMuted)
-		ui.Row(c).Gap(10).AlignItems(ui.Center).Children(func() {
-			if ui.Button(c, "−").Width(44).Clicked() {
-				a.count--
-			}
-			ui.Textf(c, "%d", a.count).FontSize(20).Width(48).TextAlign(ui.Center)
-			if ui.PrimaryButton(c, "+").Width(44).Clicked() {
-				a.count++
-			}
-		})
-	})
-}
-
+// papago's window: a frameless, transparent native surface. The desktop shows
+// through the glass layers (no wallpaper is drawn by the app), and the app
+// draws its own chrome — the design's window controls live in the pane header.
 func main() {
-	a := &app{}
+	a := newApp()
 	mygo.App.WhenReady(func() {
 		mygo.NewWindow(mygo.WindowOptions{
-			Title:     "papago",
-			Width:     480,
-			Height:    360,
-			MinWidth:  320,
-			MinHeight: 280,
-			// Opens where the user left it last time.
-			StateKey: "main",
-			// The window shows the interface MyGo draws, not a web page.
-			Content: ui.View(a.view),
+			Title:          "papago",
+			Width:          1280,
+			Height:         720,
+			UseContentSize: true,
+			StateKey:       "main",
+			Frameless:      true,
+			Transparent:    true,
+			// Vibrancy blurs what is behind the window where the platform has
+			// it (macOS, Windows 11 22H2); elsewhere the glass layers are
+			// plain translucency over the desktop.
+			Vibrancy: mygo.VibrancyWindow,
+			Content:  ui.View(a.view),
 		})
 	})
 	if err := mygo.App.Run(); err != nil {
