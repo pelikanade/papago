@@ -1,0 +1,9 @@
+{
+  "name": "papago",
+  "id": "com.example.papago",
+  "version": "0.1.0",
+  "build": 1,
+  "icon": "icon.png",
+  "rust": ".",
+  "root": "App"
+}
